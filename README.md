@@ -4,7 +4,7 @@
 ![仕様](spec.png)
 
 ## 法人番号バリデーション
-Validate関数を使用して、法人番号の検証を行うことができます。
+Validate関数を使用して、13桁の法人番号の検証を行うことができます。
 ```
 err := Validate("1234567890123")
 if err != nil {
@@ -13,6 +13,7 @@ if err != nil {
 ```
 
 ## 法人番号の生成
+Generate関数を使用して、13桁の法人番号を生成できます。
 ```
 houjinNumber := Generate()
 fmt.Println(houjinNumber)
@@ -20,7 +21,7 @@ fmt.Println(houjinNumber)
 
 
 ## チェックディジットの計算
-CalculateCheckDigit関数を使用して、法人番号のチェックデジットを計算することができます。
+CalculateCheckDigit関数を使用して、12桁の基礎番号に対してのチェックデジットを計算することができます。
 
 ```
 checkDigit, err := CalculateCheckDigit("123456789012")
@@ -38,3 +39,5 @@ fmt.Println(checkDigit)
     ErrInvalidHoujinNumberLength: 法人番号の長さが無効な場合に返されます。
     ErrInvalidCheckDigit: チェックデジットが無効な場合に返されます。
 ```
+
+## ライセンス
