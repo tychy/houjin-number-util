@@ -39,5 +39,5 @@ fmt.Println(checkDigit)
     ErrInvalidHoujinNumberLength: 法人番号の長さが無効な場合に返されます。
     ErrInvalidCheckDigit: チェックデジットが無効な場合に返されます。
 ```
-
 ## ライセンス
+Apache2 License
