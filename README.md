@@ -25,9 +25,7 @@ Goで書かれた法人番号を生成するライブラリ
 
 ### 登記所コード
 
-https://www.touki-kyoutaku-online.moj.go.jp/toukinet/mock/SC01WS01.html　のサイトより抽出した[一覧ファイル](https://github.com/tychy/toukijo_code)を管理
-
-
+https://www.touki-kyoutaku-online.moj.go.jp/toukinet/mock/SC01WS01.html　のサイトより抽出した[一覧ファイル](https://github.com/tychy/toukijo_code)を利用
 
 
 ### チェックディジット(検査用数字)計算ロジック

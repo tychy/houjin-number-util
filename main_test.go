@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"fmt"
+	"slices"
 	"testing"
 )
 
@@ -38,10 +38,55 @@ func TestValidate(t *testing.T) {
 	})
 }
 
+func TestGenerateGovernmentHoujinNumber(t *testing.T) {
+	t.Run("generate government houjin number", func(t *testing.T) {
+		houjinNumber := GenerateGovernmentHoujinNumber()
+		if Validate(houjinNumber) != nil {
+			t.Errorf("expected nil, got %s", houjinNumber)
+		}
+
+		code := houjinNumber[1:7]
+		if !slices.Contains[[]string](GovermentCodes, code) {
+			t.Errorf("expected not in %v, got %s", ToukijoCodes, code)
+		}
+	})
+
+}
+
+func TestGenerateRegisteredHoujinNumber(t *testing.T) {
+	t.Run("generate registered houjin number", func(t *testing.T) {
+		houjinNumber := GenerateRegisteredHoujinNumber()
+		if Validate(houjinNumber) != nil {
+			t.Errorf("expected nil, got %s", houjinNumber)
+		}
+
+		code := houjinNumber[1:5]
+		if !slices.Contains[[]string](ToukijoCodes, code) {
+			t.Errorf("expected not in %v, got %s", ToukijoCodes, code)
+		}
+		org := houjinNumber[5:7]
+		if !slices.Contains[[]string](OrganizationCodes, org) {
+			t.Errorf("expected not in %v, got %s", OrganizationCodes, org)
+		}
+	})
+}
+
+func TestGenerateNonRegisteredHoujinNumber(t *testing.T) {
+	t.Run("generate non-registered houjin number", func(t *testing.T) {
+		houjinNumber := GenerateNonRegisteredHoujinNumber()
+		if Validate(houjinNumber) != nil {
+			t.Errorf("expected nil, got %s", houjinNumber)
+		}
+
+		if houjinNumber[1] != '7' {
+			t.Errorf("expected 7, got %c", houjinNumber[1])
+		}
+	})
+}
+
 func TestGenerate(t *testing.T) {
 	t.Run("generate check digit", func(t *testing.T) {
 		houjinNumber := Generate()
-		fmt.Println(houjinNumber)
 		if Validate(houjinNumber) != nil {
 			t.Errorf("expected nil, got %s", houjinNumber)
 		}

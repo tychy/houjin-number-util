@@ -36,10 +36,70 @@ func Validate(houjinNumber string) error {
 	return nil
 }
 
-func Generate() string {
-	n := rand.Intn(900000000000) + 100000000000 // 12 digits
-	str := fmt.Sprintf("%d", n)
+func selectRandomPattern(patterns []string) string {
+	n := rand.Intn(len(patterns))
+	return patterns[n]
+}
+
+// x^yを計算
+// yは1~12の整数
+// yは最大12なので効率の悪いが簡単な実装をする
+func pow(x, y int) int {
+	result := 1
+	for i := 0; i < y; i++ {
+		result *= x
+	}
+	return result
+}
+
+func generateHoujinNumber(len int) string {
+	n := rand.Intn(9*pow(10, len-1)) + pow(10, (len-1)) // len digits
+	return fmt.Sprintf("%d", n)
+
+}
+
+var GovermentCodes = []string{
+	"000011",
+	"000012",
+	"000013",
+	"000020",
+	"000030",
+}
+
+func GenerateGovernmentHoujinNumber() string {
+	str := selectRandomPattern(GovermentCodes) + generateHoujinNumber(6)
 	return calculateCheckDigit(str) + str
+}
+
+var OrganizationCodes = []string{
+	"01",
+	"02",
+	"03",
+	"04",
+	"05",
+}
+
+func GenerateRegisteredHoujinNumber() string {
+	str := selectRandomPattern(ToukijoCodes) + selectRandomPattern(OrganizationCodes) + generateHoujinNumber(6)
+	return calculateCheckDigit(str) + str
+}
+
+func GenerateNonRegisteredHoujinNumber() string {
+	str := "7" + generateHoujinNumber(11)
+	return calculateCheckDigit(str) + str
+}
+
+func Generate() string {
+	// ramdomly call one of the three functions
+	n := rand.Intn(10)
+	switch n {
+	case 0: // 10%
+		return GenerateGovernmentHoujinNumber()
+	case 1: // 10%
+		return GenerateNonRegisteredHoujinNumber()
+	default: // 80%
+		return GenerateRegisteredHoujinNumber()
+	}
 }
 
 func calculateCheckDigit(houjinNumber string) string {
