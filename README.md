@@ -1,4 +1,4 @@
-# houjin_number_util
+# houjin-number-util
 Goで書かれた法人番号を生成するライブラリ
 
 ## 前提
