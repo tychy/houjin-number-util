@@ -4,11 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"slices"
 )
 
 var (
 	ErrInvalidCharacter          = errors.New("invalid character")
 	ErrInvalidHoujinNumberLength = errors.New("invalid houjin number length")
+	ErrInvalidHoujinNumber       = errors.New("invalid houjin number")
 	ErrInvalidCheckDigit         = errors.New("invalid check digit")
 )
 
@@ -24,7 +26,7 @@ func validateHoujinNumber(length int, houjinNumber string) error {
 	return nil
 }
 
-func Validate(houjinNumber string) error {
+func ValidateCheckSum(houjinNumber string) error {
 	if err := validateHoujinNumber(13, houjinNumber); err != nil {
 		return err
 	}
@@ -34,6 +36,43 @@ func Validate(houjinNumber string) error {
 		return ErrInvalidCheckDigit
 	}
 	return nil
+}
+
+func validateToukijoCodeOrgCode(code, org string) error {
+	if !slices.Contains(ToukijoCodes, code) {
+		return ErrInvalidHoujinNumber
+	}
+	if !slices.Contains(OrganizationCodes, org) {
+		return ErrInvalidHoujinNumber
+	}
+	return nil
+}
+
+func ValidateHoujinNumber(houjinNumber string) error {
+	if err := ValidateCheckSum(houjinNumber); err != nil {
+		return err
+	}
+
+	top := houjinNumber[1]
+
+	switch top {
+	case '0':
+		govCode := houjinNumber[1:7]
+		if slices.Contains(GovermentCodes, govCode) {
+			return nil
+		}
+		return validateToukijoCodeOrgCode(houjinNumber[1:5], houjinNumber[5:7])
+
+	case '1', '2', '3', '4', '5':
+		code := houjinNumber[1:5]
+		org := houjinNumber[5:7]
+		return validateToukijoCodeOrgCode(code, org)
+
+	case '7':
+		return nil
+	default:
+		return ErrInvalidHoujinNumber
+	}
 }
 
 func selectRandomPattern(patterns []string) string {
