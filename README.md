@@ -13,13 +13,20 @@ Goで書かれた法人番号を生成するライブラリ
 3. 設立登記のない法人(健康保険組合、土地改良区、企業年金基金、外国法人など)
 4. 人格のない社団等(マンション管理組合、PTAなど)
 
-![法人番号の構成](houjinnumber.png){: width="500" height="300" }
+![法人番号の構成](houjinnumber.png)
 [参考](https://www.houjin-bangou.nta.go.jp/documents/houjinbangounokousei.pdf)
+
+### 設立登記法人の組織区分
+01: 株式会社
+02: 特例有限会社
+03: 合名会社、合資会社、合同会社、外国会社
+04: その他の法人組織 (一般社団法人、一般財団法人、医療法人、学校法人、宗教法人など)
+05: 組合
 
 
 ### チェックディジット(検査用数字)計算ロジック
 [チェックディジットの計算](https://www.houjin-bangou.nta.go.jp/documents/checkdigit.pdf)を参考に実装
-![チェックディジット計算方法](checkdigit.png){: width="500" height="300" }
+![チェックディジット計算方法](checkdigit.png)
 
 
 ## ご利用方法
