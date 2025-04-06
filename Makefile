@@ -4,4 +4,4 @@ toukijo:
 	./gen_toukijo.sh
 
 test:
-	go test
+	go test ./...

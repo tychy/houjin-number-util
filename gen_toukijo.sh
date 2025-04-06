@@ -4,10 +4,10 @@
 input="toukijo.csv"
 
 # 出力ファイル
-output="const.go"
+output="houjin/const.go"
 
 # ヘッダー
-echo "package main" > $output
+echo "package houjin" > $output
 echo "" >> $output
 echo "var ToukijoCodes = []string{" >> $output
 
