@@ -141,6 +141,76 @@ func TestGenerate(t *testing.T) {
 	})
 }
 
+func TestIsGovernmentHoujinNumber(t *testing.T) {
+	t.Run("valid government houjin number", func(t *testing.T) {
+		houjinNumber := "3000012010001" // 内閣官房
+		if !IsGovernmentHoujinNumber(houjinNumber) {
+			t.Errorf("expected true, got false")
+		}
+	})
+	t.Run("registered houjin number should return false", func(t *testing.T) {
+		houjinNumber := "5010001192707" // PayPay
+		if IsGovernmentHoujinNumber(houjinNumber) {
+			t.Errorf("expected false, got true")
+		}
+	})
+	t.Run("non-registered houjin number should return false", func(t *testing.T) {
+		houjinNumber := "8700150008847"
+		if IsGovernmentHoujinNumber(houjinNumber) {
+			t.Errorf("expected false, got true")
+		}
+	})
+	t.Run("invalid houjin number should return false", func(t *testing.T) {
+		houjinNumber := "1234567890123"
+		if IsGovernmentHoujinNumber(houjinNumber) {
+			t.Errorf("expected false, got true")
+		}
+	})
+	t.Run("generated government houjin number should return true", func(t *testing.T) {
+		for i := 0; i < 100; i++ {
+			houjinNumber := GenerateGovernmentHoujinNumber()
+			if !IsGovernmentHoujinNumber(houjinNumber) {
+				t.Errorf("expected true, got false for %s", houjinNumber)
+			}
+		}
+	})
+}
+
+func TestIsRegisteredHoujinNumber(t *testing.T) {
+	t.Run("valid registered houjin number", func(t *testing.T) {
+		houjinNumber := "5010001192707" // PayPay
+		if !IsRegisteredHoujinNumber(houjinNumber) {
+			t.Errorf("expected true, got false")
+		}
+	})
+	t.Run("government houjin number should return false", func(t *testing.T) {
+		houjinNumber := "3000012010001" // 内閣官房
+		if IsRegisteredHoujinNumber(houjinNumber) {
+			t.Errorf("expected false, got true")
+		}
+	})
+	t.Run("non-registered houjin number should return false", func(t *testing.T) {
+		houjinNumber := "8700150008847"
+		if IsRegisteredHoujinNumber(houjinNumber) {
+			t.Errorf("expected false, got true")
+		}
+	})
+	t.Run("invalid houjin number should return false", func(t *testing.T) {
+		houjinNumber := "1234567890123"
+		if IsRegisteredHoujinNumber(houjinNumber) {
+			t.Errorf("expected false, got true")
+		}
+	})
+	t.Run("generated registered houjin number should return true", func(t *testing.T) {
+		for i := 0; i < 100; i++ {
+			houjinNumber := GenerateRegisteredHoujinNumber()
+			if !IsRegisteredHoujinNumber(houjinNumber) {
+				t.Errorf("expected true, got false for %s", houjinNumber)
+			}
+		}
+	})
+}
+
 func TestCalculateCheckDigit(t *testing.T) {
 	t.Run("invalid character", func(t *testing.T) {
 		houjinNumber := "12345678901a"

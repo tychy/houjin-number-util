@@ -19,10 +19,14 @@ regNumber := houjin.GenerateRegisteredHoujinNumber() // 設立登記法人
 nonRegNumber := houjin.GenerateNonRegisteredHoujinNumber() // 設立登記なし
 
 // 法人番号の検証
-err := houjin.ValidateHoujinNumber("1234567890123") 
+err := houjin.ValidateHoujinNumber("1234567890123")
 if err == nil {
     // 有効な法人番号
 }
+
+// 法人番号の種別判定
+isGov := houjin.IsGovernmentHoujinNumber("3000012010001")    // 国の機関か判定
+isReg := houjin.IsRegisteredHoujinNumber("5010001192707")    // 設立登記法人か判定
 
 // チェックディジットの計算
 checkDigit, _ := houjin.CalculateCheckDigit("123456789012")

@@ -177,3 +177,32 @@ func CalculateCheckDigit(houjinNumber string) (string, error) {
 	}
 	return calculateCheckDigit(houjinNumber), nil
 }
+
+// IsGovernmentHoujinNumber は法人番号が国の機関のものかどうかを判定します
+func IsGovernmentHoujinNumber(houjinNumber string) bool {
+	if err := ValidateCheckSum(houjinNumber); err != nil {
+		return false
+	}
+
+	govCode := houjinNumber[1:7]
+	return slices.Contains(GovermentCodes, govCode)
+}
+
+// IsRegisteredHoujinNumber は法人番号が設立登記法人のものかどうかを判定します
+func IsRegisteredHoujinNumber(houjinNumber string) bool {
+	if err := ValidateCheckSum(houjinNumber); err != nil {
+		return false
+	}
+
+	if IsGovernmentHoujinNumber(houjinNumber) {
+		return false
+	}
+
+	top := houjinNumber[1]
+	switch top {
+	case '6', '7', '8', '9':
+		return false
+	default:
+		return true
+	}
+}
